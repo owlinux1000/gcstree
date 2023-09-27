@@ -27,4 +27,11 @@ test
 │   └── folder1-2
 └── folder2
     └── hello.txt
+
+$ gcstree test/folder1
+tophoge
+└── folder1
+    ├── folder1-1
+    │   └── hello.txt
+    └── folder1-2
 ```
