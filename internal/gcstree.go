@@ -11,6 +11,7 @@ import (
 
 type GCSTree struct {
 	bucket string
+	folder string
 	client *storage.Client
 }
 
@@ -19,16 +20,22 @@ func NewGCSTree(ctx context.Context, bucket string) (*GCSTree, error) {
 	if err != nil {
 		return nil, err
 	}
+	folder := ""
+	if strings.Contains(bucket, "/") {
+		splited := strings.Split(bucket, "/")
+		folder = strings.Join(splited[1:], "/")
+		bucket = splited[0]
+	}
 	return &GCSTree{
 		bucket: bucket,
+		folder: folder,
 		client: client,
 	}, nil
 }
 
 func (g *GCSTree) GetObjectList(ctx context.Context) ([]string, error) {
-
 	bkt := g.client.Bucket(g.bucket)
-	query := &storage.Query{Prefix: ""}
+	query := &storage.Query{Prefix: g.folder}
 	var names []string
 	it := bkt.Objects(ctx, query)
 	for {
