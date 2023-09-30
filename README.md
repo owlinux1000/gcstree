@@ -26,7 +26,7 @@ In advance, you might want to login to Google Cloud as follows:
 gcloud auth application-default login
 ```
 
-```
+```console
 $ gcstree
 A tree command for Google Cloud Storage
 
@@ -38,7 +38,7 @@ Flags:
   -v, --version   show the gcstree version
 ```
 
-```
+```console
 $ gcstree test
 test
 ├── folder1
@@ -48,12 +48,18 @@ test
 └── folder2
     └── hello.txt
 
+4 directories, 2 files
+```
+
+```console
 $ gcstree test/folder1
 test
 └── folder1
     ├── folder1-1
     │   └── hello.txt
     └── folder1-2
+
+3 directories, 1 files
 ```
 
 ## Special thanks :tada:
