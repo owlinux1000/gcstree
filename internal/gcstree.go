@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"cloud.google.com/go/storage"
@@ -12,9 +13,10 @@ import (
 const GCSTREE_VERSION = "0.0.3"
 
 type GCSTree struct {
-	bucket string
-	folder string
-	client *storage.Client
+	bucket  string
+	folder  string
+	client  *storage.Client
+	counter *counter
 }
 
 func NewGCSTree(ctx context.Context, bucket string) (*GCSTree, error) {
@@ -29,9 +31,10 @@ func NewGCSTree(ctx context.Context, bucket string) (*GCSTree, error) {
 		bucket = splited[0]
 	}
 	return &GCSTree{
-		bucket: bucket,
-		folder: folder,
-		client: client,
+		bucket:  bucket,
+		folder:  folder,
+		client:  client,
+		counter: newCounter(),
 	}, nil
 }
 
@@ -48,6 +51,7 @@ func (g *GCSTree) GetObjectList(ctx context.Context) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
+		g.counter.count(attrs.Name)
 		names = append(names, attrs.Name)
 	}
 	return names, nil
@@ -75,6 +79,9 @@ func (g *GCSTree) Tree() (string, error) {
 
 	buf := new(strings.Builder)
 	if err := gtree.OutputProgrammably(buf, root); err != nil {
+		return "", err
+	}
+	if _, err := buf.WriteString(fmt.Sprintf("\n%s", g.counter.summary())); err != nil {
 		return "", err
 	}
 	return buf.String(), nil
