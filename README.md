@@ -29,7 +29,7 @@ test
     └── hello.txt
 
 $ gcstree test/folder1
-tophoge
+test
 └── folder1
     ├── folder1-1
     │   └── hello.txt
