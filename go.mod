@@ -4,6 +4,7 @@ go 1.21.1
 
 require (
 	cloud.google.com/go/storage v1.33.0
+	github.com/ddddddO/gtree v1.9.11
 	github.com/spf13/cobra v1.7.0
 	google.golang.org/api v0.143.0
 )
@@ -13,7 +14,6 @@ require (
 	cloud.google.com/go/compute v1.23.0 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	cloud.google.com/go/iam v1.1.1 // indirect
-	github.com/ddddddO/gtree v1.9.11 // indirect
 	github.com/fatih/color v1.15.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
