@@ -5,26 +5,51 @@ import (
 )
 
 func TestCounter_Summary(t *testing.T) {
-	paths := []string{
-		"empty_directory/",
-		"a.txt",
-		"a.tgz",
-		"source/a.tgz",
-		"source/b.tgz",
-		"source/c.tgz",
-		"tmp_directory/",
-		"tmp_directory/a.png",
-		"tmp_directory/empty_directory/",
-		"tmp_directory/source/a.tgz",
+	tests := []struct {
+		name  string
+		paths []string
+		want  string
+	}{
+		{
+			name: "pattern1",
+			paths: []string{
+				"empty_directory/",
+				"a.txt",
+				"a.tgz",
+				"source/a.tgz",
+				"source/b.tgz",
+				"source/c.tgz",
+				"tmp_directory/",
+				"tmp_directory/a.png",
+				"tmp_directory/empty_directory/",
+				"tmp_directory/source/a.tgz",
+			},
+			want: "5 directories, 7 files",
+		},
+		{
+			name: "pattern2",
+			paths: []string{
+				"skillset-visualizer/terraform/state/default.tfstate",
+				"standard/module/structure/default.tfstate",
+			},
+			want: "6 directories, 2 files",
+		},
 	}
-	want := "5 directories, 7 files"
-	c := newCounter()
-	for _, p := range paths {
-		c.count(p)
-	}
-	got := c.summary()
 
-	if got != want {
-		t.Errorf("\ngot: \n%s\nwant: \n%s", got, want)
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			c := newCounter()
+			for _, p := range tt.paths {
+				c.count(p)
+			}
+			got := c.summary()
+
+			if got != tt.want {
+				t.Errorf("\ngot: \n%s\nwant: \n%s", got, tt.want)
+			}
+		})
 	}
 }
