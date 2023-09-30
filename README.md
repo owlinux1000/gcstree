@@ -1,7 +1,7 @@
 # gcstree
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![](https://img.shields.io/github/actions/workflow/status/owlinux1000/gcstree/release.yaml?branch=main)](https://github.com/owlinux1000/gcstree/actions)
+[![](https://github.com/owlinux1000/gcstree/actions/workflows/release.yaml/badge.svg)](https://github.com/owlinux1000/gcstree/actions)
 
 `gcstree` is a CLI tool to list objects in Google Cloud Storage.
 
