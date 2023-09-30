@@ -26,6 +26,14 @@ func TestCounter_Summary(t *testing.T) {
 			},
 			want: "5 directories, 7 files",
 		},
+		{
+			name: "pattern2",
+			paths: []string{
+				"skillset-visualizer/terraform/state/default.tfstate",
+				"standard/module/structure/default.tfstate",
+			},
+			want: "6 directories, 2 files",
+		},
 	}
 
 	for _, tt := range tests {
