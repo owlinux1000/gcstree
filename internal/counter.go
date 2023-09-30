@@ -20,8 +20,8 @@ func newCounter() *counter {
 
 func (c *counter) count(path string) {
 	dir, file := filepath.Split(path)
-	splited := strings.Split(dir, "/")
 	if len(dir) > 0 {
+		splited := strings.Split(dir, "/")
 		for i := range splited {
 			c.dirs[filepath.Join(splited[:i+1]...)] = struct{}{}
 		}
