@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"cloud.google.com/go/storage"
-	"github.com/ddddddO/gtree"
 	"google.golang.org/api/iterator"
 )
 
@@ -19,11 +18,8 @@ type GCSTree struct {
 	counter *counter
 }
 
-func NewGCSTree(ctx context.Context, bucket string) (*GCSTree, error) {
-	client, err := storage.NewClient(ctx)
-	if err != nil {
-		return nil, err
-	}
+func NewGCSTree(ctx context.Context, client *storage.Client, bucket string) (*GCSTree, error) {
+
 	folder := ""
 	if strings.Contains(bucket, "/") {
 		splited := strings.Split(bucket, "/")
@@ -38,10 +34,10 @@ func NewGCSTree(ctx context.Context, bucket string) (*GCSTree, error) {
 	}, nil
 }
 
-func (g *GCSTree) GetObjectList(ctx context.Context) ([]string, error) {
+func (g *GCSTree) GetObjectAttrList(ctx context.Context) ([]*storage.ObjectAttrs, error) {
 	bkt := g.client.Bucket(g.bucket)
 	query := &storage.Query{Prefix: g.folder}
-	var names []string
+	var names []*storage.ObjectAttrs
 	it := bkt.Objects(ctx, query)
 	for {
 		attrs, err := it.Next()
@@ -52,37 +48,21 @@ func (g *GCSTree) GetObjectList(ctx context.Context) ([]string, error) {
 			return nil, err
 		}
 		g.counter.count(attrs.Name)
-		names = append(names, attrs.Name)
+		names = append(names, attrs)
 	}
 	return names, nil
 }
 
-// ref: https://github.com/ddddddO/gtree#the-program-below-converts-the-result-of-find-into-a-tree
-func (g *GCSTree) Tree() (string, error) {
+func (g *GCSTree) String() (string, error) {
 	ctx := context.Background()
-	objList, err := g.GetObjectList(ctx)
+	objList, err := g.GetObjectAttrList(ctx)
 	if err != nil {
 		return "", err
 	}
-	root := gtree.NewRoot(g.bucket)
-	node := root
-	for _, obj := range objList {
-		for _, s := range strings.Split(obj, "/") {
-			if s == "" {
-				continue
-			}
-			tmp := node.Add(s)
-			node = tmp
-		}
-		node = root
-	}
-
-	buf := new(strings.Builder)
-	if err := gtree.OutputProgrammably(buf, root); err != nil {
+	treeResult, err := tree(g.bucket, objList)
+	if err != nil {
 		return "", err
 	}
-	if _, err := buf.WriteString(fmt.Sprintf("\n%s", g.counter.summary())); err != nil {
-		return "", err
-	}
-	return buf.String(), nil
+	treeResult += fmt.Sprintf("\n%s", g.counter.summary())
+	return treeResult, nil
 }
