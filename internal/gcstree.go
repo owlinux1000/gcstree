@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 
 	"cloud.google.com/go/storage"
@@ -51,6 +52,9 @@ func (g *GCSTree) GetObjectList(ctx context.Context) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
+
+		log.Println("Debug:")
+		fmt.Println(attrs.Name)
 		g.counter.count(attrs.Name)
 		names = append(names, attrs.Name)
 	}
