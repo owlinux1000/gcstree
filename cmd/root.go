@@ -17,8 +17,15 @@ var rootCmd = &cobra.Command{
 	Use:   "gcstree <bucket>",
 	Short: "A tree command for Google Cloud Storage",
 	Long:  ``,
-	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		if ok, _ := cmd.Flags().GetBool("version"); ok {
+			fmt.Printf("gcstree v%s\n", internal.GCSTREE_VERSION)
+			os.Exit(0)
+		}
+		if len(args) == 0 {
+			cmd.Help()
+			os.Exit(0)
+		}
 		bucket := args[0]
 		var ctx context.Context = context.Background()
 		gcsTree, err := internal.NewGCSTree(ctx, bucket)
@@ -38,4 +45,8 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func init() {
+	rootCmd.Flags().BoolP("version", "v", false, "show the gcstree version")
 }

@@ -9,6 +9,8 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+const GCSTREE_VERSION = "0.0.1"
+
 type GCSTree struct {
 	bucket string
 	folder string
