@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 )
 
 type counter struct {
@@ -19,8 +20,11 @@ func newCounter() *counter {
 
 func (c *counter) count(path string) {
 	dir, file := filepath.Split(path)
+	splited := strings.Split(dir, "/")
 	if len(dir) > 0 {
-		c.dirs[dir] = struct{}{}
+		for i := range splited {
+			c.dirs[filepath.Join(splited[:i+1]...)] = struct{}{}
+		}
 	}
 	if len(file) > 0 {
 		c.files[path] = struct{}{}
