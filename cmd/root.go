@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 
+	"cloud.google.com/go/storage"
 	"github.com/owlinux1000/gcstree/internal"
 	"github.com/spf13/cobra"
 )
@@ -28,11 +29,15 @@ var rootCmd = &cobra.Command{
 		}
 		bucket := args[0]
 		var ctx context.Context = context.Background()
-		gcsTree, err := internal.NewGCSTree(ctx, bucket)
+		client, err := storage.NewClient(ctx)
 		if err != nil {
 			log.Fatal(err)
 		}
-		result, err := gcsTree.Tree()
+		gcsTree, err := internal.NewGCSTree(ctx, client, bucket)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result, err := gcsTree.String()
 		if err != nil {
 			log.Fatal(err)
 		}

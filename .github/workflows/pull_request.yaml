@@ -1,15 +1,12 @@
-name: release
+name: pull_request
 
-on:
-  push:
-    tags:
-      - "v*"
+on: 
+  pull_request:
+    types: [opened,synchronize]
 
 jobs:
-  release:
+  pull_request:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v3
         with:
@@ -27,11 +24,4 @@ jobs:
       - name: Go Test
         run: |
           go test -v ./...
-
-      - name: Release gcstree
-        uses: goreleaser/goreleaser-action@v4
-        with:
-          args: release --rm-dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAP_GITHUB_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
+  
