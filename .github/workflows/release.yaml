@@ -20,7 +20,16 @@ jobs:
           go-version-file: go.mod
           cache: true
 
-      - uses: goreleaser/goreleaser-action@v4
+      - name: Go Build
+        run: |
+          go build -v ./...
+
+      - name: Go Test
+        run: |
+          go test -v ./...
+
+      - name: Release gcstree
+        uses: goreleaser/goreleaser-action@v4
         with:
           args: release --rm-dist
         env:
