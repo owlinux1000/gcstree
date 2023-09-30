@@ -1,0 +1,27 @@
+name: pull_request
+
+on: 
+  pull_request:
+    types: [opened,synchronize]
+
+jobs:
+  pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Go Build
+        run: |
+          go build -v ./...
+
+      - name: Go Test
+        run: |
+          go test -v ./...
+  
