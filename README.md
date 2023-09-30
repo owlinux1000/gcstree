@@ -28,12 +28,14 @@ gcloud auth application-default login
 
 ```
 $ gcstree
-Error: requires at least 1 arg(s), only received 0
+A tree command for Google Cloud Storage
+
 Usage:
   gcstree <bucket> [flags]
 
 Flags:
-  -h, --help   help for gcstree
+  -h, --help      help for gcstree
+  -v, --version   show the gcstree version
 ```
 
 ```
