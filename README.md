@@ -1,4 +1,8 @@
-# A Tree command for Google Cloud Storage
+# gcstree
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+`gcstree` is a CLI tool to list objects in Google Cloud Storage.
 
 ## How to install
 
