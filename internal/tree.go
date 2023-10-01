@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -22,8 +23,14 @@ func tree(bucket string, objList []*storage.ObjectAttrs, option *PrintOption) (s
 			if s == "" {
 				continue
 			}
+			originalFilename := s
+			if option.WithSize {
+				if s == file {
+					s = fmt.Sprintf("[%4s]  %s", formatBytes(obj.Size), s)
+				}
+			}
 			if option.WithColorized {
-				if s != file {
+				if originalFilename != file {
 					s = color.BlueString("%s", s)
 				}
 			}
