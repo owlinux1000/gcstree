@@ -35,8 +35,10 @@ var rootCmd = &cobra.Command{
 		}
 
 		withColorized, _ := cmd.Flags().GetBool("no-color")
+		withSize, _ := cmd.Flags().GetBool("filesize")
 		option := internal.PrintOption{
 			WithColorized: !withColorized,
+			WithSize:      withSize,
 		}
 		gcsTree, err := internal.NewGCSTree(ctx, client, bucket, &option)
 		if err != nil {
@@ -60,4 +62,5 @@ func Execute() {
 func init() {
 	rootCmd.Flags().BoolP("version", "v", false, "show the gcstree version")
 	rootCmd.Flags().BoolP("no-color", "n", false, "disable colorized outputs")
+	rootCmd.Flags().BoolP("filesize", "f", false, "show the file size")
 }
