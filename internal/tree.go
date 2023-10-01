@@ -12,7 +12,7 @@ import (
 // ref: https://github.com/ddddddO/gtree#the-program-below-converts-the-result-of-find-into-a-tree
 func tree(bucket string, objList []*storage.ObjectAttrs, option *PrintOption) (string, error) {
 	if option.WithColorized {
-		bucket = color.BlueString("%s", bucket)
+		bucket = color.CyanString("%s", bucket)
 	}
 	root := gtree.NewRoot(bucket)
 	node := root
@@ -23,9 +23,7 @@ func tree(bucket string, objList []*storage.ObjectAttrs, option *PrintOption) (s
 				continue
 			}
 			if option.WithColorized {
-				if s == file {
-					s = color.GreenString("%s", s)
-				} else {
+				if s != file {
 					s = color.BlueString("%s", s)
 				}
 			}
