@@ -35,6 +35,7 @@ Usage:
 
 Flags:
   -h, --help      help for gcstree
+  -n, --no-color   disable colorized outputs
   -v, --version   show the gcstree version
 ```
 
