@@ -33,7 +33,12 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		gcsTree, err := internal.NewGCSTree(ctx, client, bucket)
+
+		withColorized, _ := cmd.Flags().GetBool("no-color")
+		option := internal.PrintOption{
+			WithColorized: !withColorized,
+		}
+		gcsTree, err := internal.NewGCSTree(ctx, client, bucket, &option)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -54,4 +59,5 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().BoolP("version", "v", false, "show the gcstree version")
+	rootCmd.Flags().BoolP("no-color", "n", false, "disable colorized outputs")
 }

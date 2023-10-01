@@ -1,20 +1,31 @@
 package internal
 
 import (
+	"path/filepath"
 	"strings"
 
 	"cloud.google.com/go/storage"
 	"github.com/ddddddO/gtree"
+	"github.com/fatih/color"
 )
 
 // ref: https://github.com/ddddddO/gtree#the-program-below-converts-the-result-of-find-into-a-tree
-func tree(bucket string, objList []*storage.ObjectAttrs) (string, error) {
+func tree(bucket string, objList []*storage.ObjectAttrs, option *PrintOption) (string, error) {
+	if option.WithColorized {
+		bucket = color.CyanString("%s", bucket)
+	}
 	root := gtree.NewRoot(bucket)
 	node := root
 	for _, obj := range objList {
+		_, file := filepath.Split(obj.Name)
 		for _, s := range strings.Split(obj.Name, "/") {
 			if s == "" {
 				continue
+			}
+			if option.WithColorized {
+				if s != file {
+					s = color.BlueString("%s", s)
+				}
 			}
 			tmp := node.Add(s)
 			node = tmp
