@@ -24,12 +24,6 @@ type PrintOption struct {
 	WithSize      bool
 }
 
-type ObjectAttrs struct {
-	Name   string
-	Size   int64
-	isFile bool
-}
-
 func NewGCSTree(ctx context.Context, client *storage.Client, bucket string, option *PrintOption) (*GCSTree, error) {
 
 	folder := ""
