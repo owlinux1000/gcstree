@@ -21,7 +21,11 @@ func TestTree(t *testing.T) {
 		Size: 6,
 	})
 	bucket := "test"
-	got, err := tree(bucket, objList)
+	option := PrintOption{
+		WithColorized: false,
+		WithSize:      false,
+	}
+	got, err := tree(bucket, objList, &option)
 	if err != nil {
 		t.Fatal(err)
 	}

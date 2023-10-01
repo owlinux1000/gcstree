@@ -33,7 +33,12 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		gcsTree, err := internal.NewGCSTree(ctx, client, bucket)
+
+		option := internal.PrintOption{
+			WithColorized: true,
+			WithSize:      false,
+		}
+		gcsTree, err := internal.NewGCSTree(ctx, client, bucket, &option)
 		if err != nil {
 			log.Fatal(err)
 		}

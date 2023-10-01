@@ -16,9 +16,21 @@ type GCSTree struct {
 	folder  string
 	client  *storage.Client
 	counter *counter
+	option  *PrintOption
 }
 
-func NewGCSTree(ctx context.Context, client *storage.Client, bucket string) (*GCSTree, error) {
+type PrintOption struct {
+	WithColorized bool
+	WithSize      bool
+}
+
+type ObjectAttrs struct {
+	Name   string
+	Size   int64
+	isFile bool
+}
+
+func NewGCSTree(ctx context.Context, client *storage.Client, bucket string, option *PrintOption) (*GCSTree, error) {
 
 	folder := ""
 	if strings.Contains(bucket, "/") {
@@ -31,13 +43,15 @@ func NewGCSTree(ctx context.Context, client *storage.Client, bucket string) (*GC
 		folder:  folder,
 		client:  client,
 		counter: newCounter(),
+		option:  option,
 	}, nil
 }
 
 func (g *GCSTree) GetObjectAttrList(ctx context.Context) ([]*storage.ObjectAttrs, error) {
 	bkt := g.client.Bucket(g.bucket)
 	query := &storage.Query{Prefix: g.folder}
-	var names []*storage.ObjectAttrs
+	var objectAttrs []*storage.ObjectAttrs
+
 	it := bkt.Objects(ctx, query)
 	for {
 		attrs, err := it.Next()
@@ -48,9 +62,9 @@ func (g *GCSTree) GetObjectAttrList(ctx context.Context) ([]*storage.ObjectAttrs
 			return nil, err
 		}
 		g.counter.count(attrs.Name)
-		names = append(names, attrs)
+		objectAttrs = append(objectAttrs, attrs)
 	}
-	return names, nil
+	return objectAttrs, nil
 }
 
 func (g *GCSTree) String() (string, error) {
@@ -59,7 +73,7 @@ func (g *GCSTree) String() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	treeResult, err := tree(g.bucket, objList)
+	treeResult, err := tree(g.bucket, objList, g.option)
 	if err != nil {
 		return "", err
 	}
