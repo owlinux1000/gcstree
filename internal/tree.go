@@ -41,7 +41,7 @@ func tree(bucket string, objList []*storage.ObjectAttrs, option *PrintOption) (s
 	}
 
 	buf := new(strings.Builder)
-	if err := gtree.OutputProgrammably(buf, root); err != nil {
+	if err := gtree.OutputFromRoot(buf, root); err != nil {
 		return "", err
 	}
 	return buf.String(), nil
