@@ -1,11 +1,13 @@
 module github.com/owlinux1000/gcstree
 
-go 1.21.1
+go 1.24
+
+toolchain go1.24.0
 
 require (
 	cloud.google.com/go/storage v1.33.0
-	github.com/ddddddO/gtree v1.9.11
-	github.com/fatih/color v1.15.0
+	github.com/ddddddO/gtree v1.11.2
+	github.com/fatih/color v1.18.0
 	github.com/spf13/cobra v1.7.0
 	google.golang.org/api v0.143.0
 )
@@ -24,15 +26,15 @@ require (
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.17 // indirect
-	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.13.0 // indirect
 	golang.org/x/net v0.15.0 // indirect
 	golang.org/x/oauth2 v0.12.0 // indirect
-	golang.org/x/sync v0.3.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
+	golang.org/x/sync v0.12.0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
